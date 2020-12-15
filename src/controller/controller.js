@@ -1,11 +1,11 @@
 class Controller {
-   constructor(view, model) {
+  constructor(view) {
+    this.view = view;
+  }
 
-   }
-
-   init = () => {
-
-   };
+  init = () => {
+     this.view.init();
+  };
 }
 
 export default Controller;
