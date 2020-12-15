@@ -7,6 +7,7 @@ class View {
     this.mainContainer = null;
     this.footerContainer = null;
     this.canvasContext = null;
+    this.cvet = null;
   }
   init = () => {
     this.root = document.getElementById("root");
@@ -54,8 +55,8 @@ class View {
       let b = event.offsetY;
       ctx.moveTo(e, b);
       canvass.onmousemove = function (event){
-        ctx.lineWidth = 5; 
-        ctx.strokeStyle = "green";
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = this.footerColorChange;
         let x = event.offsetX;
         let y = event.offsetY;
         ctx.lineTo(x, y); //доложен брать this.input vaulue
@@ -68,6 +69,18 @@ class View {
         canvass.onmousemove = null;
       }
     }
+  }
+
+  footerRangeChange = cb => {
+    this.footerRange.addEventListener("change", () => {
+      cb();
+    })
+  }
+
+  footerColorChange = cb => {
+    this.footerColor.addEventListener("change", () => {
+       cb();
+    })
   }
 
   createDiv = (props) => {
