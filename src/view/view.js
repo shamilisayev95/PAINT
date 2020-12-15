@@ -1,10 +1,10 @@
 class View {
   constructor() {
     this.root = null;
-    this.canvas = null;
     this.footerRange = null;
     this.footerColor = null;
     this.mainContainer = null;
+    this.canvasContainer = null;
     this.footerContainer = null;
   }
   init = () => {
@@ -42,6 +42,27 @@ class View {
     this.mainContainer.append(this.canvasContainer);
     this.mainContainer.append(this.footerContainer);
     this.root.append(this.mainContainer);
+  };
+
+  showCanvas = () => {
+    let can = documen.getElementById("canvas-container");
+    let ctx = can.getContext("2d");
+    let myColor = "black";
+
+    can.onmousedown = function (event) {
+      can.onmousemove = function (event) {
+        let x = event.offsetX;
+        let y = event.offsetY;
+
+        ctx.fillRect(x, y, 10, 10);
+        ctx.fillStyle = myColor;
+        ctx.fill();
+      };
+
+      can.onmouseup = function () {
+        can.onmousemove = null;
+      };
+    };
   };
 
   createDiv = (props) => {

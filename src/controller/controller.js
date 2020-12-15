@@ -4,7 +4,8 @@ class Controller {
   }
 
   init = () => {
-     this.view.init();
+    this.view.init();
+    this.showCanvas.init();
   };
 }
 
