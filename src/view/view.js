@@ -5,8 +5,8 @@ class View {
     this.footerRange = null;
     this.footerColor = null;
     this.mainContainer = null;
-    this.footerContainer = null;
     this.canvasContext = null;
+    this.footerContainer = null;
   }
   init = () => {
     this.root = document.getElementById("root");
@@ -14,12 +14,14 @@ class View {
       className: "main__container",
       id: "main-container",
     });
+
     this.canvas = this.createCanvas({
       className: "canvas__container",
       id: "canvas-container",
       height: "400",
       width: "800",
     });
+
     this.footerRange = this.createInput({
       className: "footer__range",
       type: "range",
@@ -28,16 +30,19 @@ class View {
       max: " 80",
       step: "1",
     });
+
     this.footerColor = this.createInput({
       className: "footer__color",
       type: "color",
       id: "footer-color",
     });
+
     this.footerContainer = this.createDiv({
       className: "footer__container",
       id: "footer-container",
     });
 
+    this.canvasContext = this.canvas.getContext('2d');
     this.footerContainer.append(this.footerRange);
     this.footerContainer.append(this.footerColor);
     this.mainContainer.append(this.canvas);
@@ -45,29 +50,37 @@ class View {
     this.root.append(this.mainContainer);
   };
 
-  painting = () => {
-    let canvass = document.getElementById("canvas-container")
-    this.canvasContext = canvass.getContext('2d');
-    let ctx = this.canvasContext;
-    canvass.onmousedown = function (event) {
-      let e = event.offsetX;
-      let b = event.offsetY;
-      ctx.moveTo(e, b);
-      canvass.onmousemove = function (event){
-        ctx.lineWidth = 5; 
-        ctx.strokeStyle = "green";
-        let x = event.offsetX;
-        let y = event.offsetY;
-        ctx.lineTo(x, y); //доложен брать this.input vaulue
-        ctx.stroke();
-      }
-      canvass.onmouseup = function () {
-        canvass.onmousemove = null;
-      }
-      canvass.onmouseout = function () {
-        canvass.onmousemove = null;
-      }
+    mouseDown = cb => {
+        this.canvas.addEventListener("mousedown", (event) => {
+            cb(event);
+        })
     }
+    mouseMove = cb => {
+        this.canvas.addEventListener("mousemove", (event) => {
+            cb(event);
+        })
+    }
+    mouseUp = cb => {
+        this.canvas.addEventListener("mouseup", (event) => {
+            cb(event);
+        })
+    }
+    mouseOut = cb => {
+        this.canvas.addEventListener("mouseout", (event) => {
+            cb(event);
+        })
+    }
+
+  footerRangeChange = cb => {
+    this.footerRange.addEventListener("change", () => {
+      cb();
+    })
+  }
+
+  footerColorChange = cb => {
+    this.footerColor.addEventListener("change", () => {
+       cb();
+    })
   }
 
   createDiv = (props) => {
