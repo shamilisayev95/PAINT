@@ -6,6 +6,7 @@ class View {
     this.footerColor = null;
     this.mainContainer = null;
     this.footerContainer = null;
+    this.canvasContext = null;
   }
   init = () => {
     this.root = document.getElementById("root");
@@ -13,7 +14,7 @@ class View {
       className: "main__container",
       id: "main-container",
     });
-    this.canvasContainer = this.createCanvas({
+    this.canvas = this.createCanvas({
       className: "canvas__container",
       id: "canvas-container",
       height: "400",
@@ -39,10 +40,35 @@ class View {
 
     this.footerContainer.append(this.footerRange);
     this.footerContainer.append(this.footerColor);
-    this.mainContainer.append(this.canvasContainer);
+    this.mainContainer.append(this.canvas);
     this.mainContainer.append(this.footerContainer);
     this.root.append(this.mainContainer);
   };
+
+  painting = () => {
+    let canvass = document.getElementById("canvas-container")
+    this.canvasContext = canvass.getContext('2d');
+    let ctx = this.canvasContext;
+    canvass.onmousedown = function (event) {
+      let e = event.offsetX;
+      let b = event.offsetY;
+      ctx.moveTo(e, b);
+      canvass.onmousemove = function (event){
+        ctx.lineWidth = 5; 
+        ctx.strokeStyle = "green";
+        let x = event.offsetX;
+        let y = event.offsetY;
+        ctx.lineTo(x, y); //доложен брать this.input vaulue
+        ctx.stroke();
+      }
+      canvass.onmouseup = function () {
+        canvass.onmousemove = null;
+      }
+      canvass.onmouseout = function () {
+        canvass.onmousemove = null;
+      }
+    }
+  }
 
   createDiv = (props) => {
     const div = document.createElement("div");

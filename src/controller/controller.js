@@ -5,7 +5,10 @@ class Controller {
 
   init = () => {
      this.view.init();
+     this.view.painting();
   };
+
+
 }
 
 export default Controller;
