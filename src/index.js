@@ -1,4 +1,4 @@
-import "./style.less"
+import "./style.less" 
 
 import View from "./view/view";
 // import Model from "./model/model";

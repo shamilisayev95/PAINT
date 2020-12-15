@@ -1,11 +1,13 @@
 class Controller {
   constructor(view) {
     this.view = view;
+    this.color = null;
+    this.range = null;
   }
 
   init = () => {
     this.view.init();
-    this.showCanvas.init();
+    this.view.painting();
   };
 }
 
