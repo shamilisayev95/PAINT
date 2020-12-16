@@ -1,6 +1,7 @@
 class Controller {
-    constructor(view) {
+    constructor(view, model) {
         this.view = view;
+        this.model = model;
         this.color = null;
         this.range = null;
         this.isDrawing = null;
@@ -20,12 +21,13 @@ class Controller {
         this.view.footerColorChange(this.changeColor.bind(this));
     };
 
-    changeRange = () => {
-        this.range = this.view.footerRange.value;
+    changeRange = (range) => {
+        this.range = range;
     }
 
-    changeColor = () => {
-        this.color = this.view.footerColor.value;
+    changeColor = (color) => {
+        this.color = color;
+        this.model.changeColor(this.color);
     }
 
     mouseStart = (event) => {
@@ -57,7 +59,7 @@ class Controller {
 
     drawLine = (x1, y1, x2, y2) => {
         this.ctx.beginPath();
-        this.ctx.strokeStyle = this.color ;
+        this.ctx.strokeStyle = this.color;
         this.ctx.lineWidth = this.range;
         this.ctx.lineCap = "round";
         this.ctx.moveTo(x1, y1);

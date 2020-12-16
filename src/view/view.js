@@ -8,6 +8,7 @@ class View {
     this.canvasContext = null;
     this.footerContainer = null;
   }
+
   init = () => {
     this.root = document.getElementById("root");
     this.mainContainer = this.createDiv({
@@ -72,14 +73,16 @@ class View {
     }
 
   footerRangeChange = cb => {
-    this.footerRange.addEventListener("change", () => {
-      cb();
+    this.footerRange.addEventListener("change", (event) => {
+      const { value } = event.target;
+      cb(value);
     })
   }
 
   footerColorChange = cb => {
-    this.footerColor.addEventListener("change", () => {
-       cb();
+    this.footerColor.addEventListener("change", (event) => {
+      const { value } = event.target;
+      cb(value);
     })
   }
 
@@ -97,8 +100,8 @@ class View {
 
     props.id && (canvas.id = props.id);
     props.className && (canvas.className = props.className);
-    props.height && (canvas.height = props.height);
-    props.width && (canvas.width = props.width);
+    props.height && (canvas.height = props.height || "500");
+    props.width && (canvas.width = props.width || "900");
 
     return canvas;
   };
