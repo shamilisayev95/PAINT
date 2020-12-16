@@ -1,6 +1,7 @@
 class Controller {
-  constructor(view) {
+  constructor(view, model) {
     this.view = view;
+    this.model = model;
     this.color = null;
     this.range = null;
     this.isDrawing = null;
@@ -20,19 +21,21 @@ class Controller {
     this.view.footerColorChange(this.changeColor.bind(this));
   };
 
-  changeRange = () => {
-    this.range = this.view.footerRange.value;
-  };
-
   changeColor = (color) => {
     this.color = color;
-    this.view.footerColor.value;
+    this.model.changeColor(this.color);
+  };
+
+  changeRange = (range) => {
+    this.range = range;
+    this.model.changeRange(this.range);
   };
 
   mouseStart = (event) => {
     this.x = event.layerX;
     this.y = event.layerY;
     this.isDrawing = true;
+    this.model.mouseStart(this.x,this.y,this.isDrawing)
   };
 
   mouseMover = (event) => {
@@ -41,6 +44,7 @@ class Controller {
       this.x = event.layerX;
       this.y = event.layerY;
     }
+    // this.model.mouseMover(this.x,this.y,this.drawLine())
   };
 
   mouseStop = (event) => {
@@ -50,10 +54,12 @@ class Controller {
       this.y = 0;
       this.isDrawing = false;
     }
+    this.model.mouseStop(this.x,this.y,this.drawLine())
   };
 
   mouseCanvasStop = () => {
     this.isDrawing = false;
+    // this.model.mouseCanvasStop();
   };
 
   drawLine = (x1, y1, x2, y2) => {
