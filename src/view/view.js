@@ -82,6 +82,9 @@ class View {
     });
   };
 
+  showColor = value => {
+    this.value = value
+  }
   // footerRangeChange = (cb) => {
   //   this.footerRange.addEventListener("change", () => {
   //     cb();
