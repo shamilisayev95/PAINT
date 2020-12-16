@@ -11,35 +11,35 @@ class View {
   init = () => {
     this.root = document.getElementById("root");
     this.mainContainer = this.createDiv({
-      className: "main__container",
       id: "main-container",
+      className: "main__container",
     });
 
     this.canvas = this.createCanvas({
-      className: "canvas__container",
-      id: "canvas-container",
-      height: "400",
       width: "800",
+      height: "400",
+      id: "canvas-container",
+      className: "canvas__container",
     });
 
     this.footerRange = this.createInput({
-      className: "footer__range",
-      type: "range",
-      id: "footer-range",
       min: "1",
       max: " 80",
       step: "1",
+      type: "range",
+      id: "footer-range",
+      className: "footer__range",
     });
 
     this.footerColor = this.createInput({
-      className: "footer__color",
       type: "color",
       id: "footer-color",
+      className: "footer__color",
     });
 
     this.footerContainer = this.createDiv({
-      className: "footer__container",
       id: "footer-container",
+      className: "footer__container",
     });
 
     this.canvasContext = this.canvas.getContext('2d');
