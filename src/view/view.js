@@ -1,43 +1,48 @@
 class View {
   constructor() {
     this.root = null;
-    this.canvas = null;
     this.footerRange = null;
     this.footerColor = null;
     this.mainContainer = null;
-    this.footerContainer = null;
     this.canvasContext = null;
+    this.footerContainer = null;
   }
+
   init = () => {
     this.root = document.getElementById("root");
     this.mainContainer = this.createDiv({
-      className: "main__container",
       id: "main-container",
-    });
-    this.canvas = this.createCanvas({
-      className: "canvas__container",
-      id: "canvas-container",
-      height: "400",
-      width: "800",
-    });
-    this.footerRange = this.createInput({
-      className: "footer__range",
-      type: "range",
-      id: "footer-range",
-      min: "1",
-      max: " 80",
-      step: "1",
-    });
-    this.footerColor = this.createInput({
-      className: "footer__color",
-      type: "color",
-      id: "footer-color",
-    });
-    this.footerContainer = this.createDiv({
-      className: "footer__container",
-      id: "footer-container",
+      className: "main__container",
     });
 
+    this.canvas = this.createCanvas({
+      width: "800",
+      height: "400",
+      id: "canvas-container",
+      className: "canvas__container",
+    });
+
+    this.footerRange = this.createInput({
+      min: "1",
+      max: "80",
+      step: "1",
+      type: "range",
+      id: "footer-range",
+      className: "footer__range",
+    });
+
+    this.footerColor = this.createInput({
+      type: "color",
+      id: "footer-color",
+      className: "footer__color",
+    });
+
+    this.footerContainer = this.createDiv({
+      id: "footer-container",
+      className: "footer__container",
+    });
+
+    this.canvasContext = this.canvas.getContext("2d");
     this.footerContainer.append(this.footerRange);
     this.footerContainer.append(this.footerColor);
     this.mainContainer.append(this.canvas);
@@ -45,30 +50,52 @@ class View {
     this.root.append(this.mainContainer);
   };
 
-  painting = () => {
-    let canvass = document.getElementById("canvas-container")
-    this.canvasContext = canvass.getContext('2d');
-    let ctx = this.canvasContext;
-    canvass.onmousedown = function (event) {
-      let e = event.offsetX;
-      let b = event.offsetY;
-      ctx.moveTo(e, b);
-      canvass.onmousemove = function (event){
-        ctx.lineWidth = 5; 
-        ctx.strokeStyle = "green";
-        let x = event.offsetX;
-        let y = event.offsetY;
-        ctx.lineTo(x, y); //доложен брать this.input vaulue
-        ctx.stroke();
-      }
-      canvass.onmouseup = function () {
-        canvass.onmousemove = null;
-      }
-      canvass.onmouseout = function () {
-        canvass.onmousemove = null;
-      }
-    }
-  }
+  mouseDown = (cb) => {
+    this.canvas.addEventListener("mousedown", (event) => {
+      cb(event);
+    });
+  };
+  mouseMove = (cb) => {
+    this.canvas.addEventListener("mousemove", (event) => {
+      cb(event);
+    });
+  };
+  mouseUp = (cb) => {
+    this.canvas.addEventListener("mouseup", (event) => {
+      cb(event);
+    });
+  };
+  mouseOut = (cb) => {
+    this.canvas.addEventListener("mouseout", (event) => {
+      cb(event);
+    });
+  };
+
+  footerRangeChange = (cb) => {
+    this.footerRange.addEventListener("change", (event) => {
+      const { value } = event.target;
+      cb(value);
+    });
+  };
+
+  footerColorChange = (cb) => {
+    this.footerColor.addEventListener("change", (event) => {
+      const { value } = event.target;
+      cb(value);
+    });
+  };
+  // footerRangeChange = (cb) => {
+  //   this.footerRange.addEventListener("change", () => {
+  //     cb();
+  //   });
+  // };
+
+  // footerColorChange = (cb) => {
+  //   this.footerColor.addEventListener("change", () => {
+  //     cb();
+  //   });
+  // };
+  
 
   createDiv = (props) => {
     const div = document.createElement("div");
@@ -84,8 +111,8 @@ class View {
 
     props.id && (canvas.id = props.id);
     props.className && (canvas.className = props.className);
-    props.height && (canvas.height = props.height);
-    props.width && (canvas.width = props.width);
+    props.height && (canvas.height = props.height || "500");
+    props.width && (canvas.width = props.width || "900");
 
     return canvas;
   };
@@ -103,5 +130,4 @@ class View {
     return input;
   };
 }
-
 export default View;
